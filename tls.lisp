@@ -30,21 +30,15 @@
 
 ;;; ----------------------------------------------------
 
-(defparameter *libcrypto*
-  #+os-windows "libcrypto-1_1-x64"
-  #-os-windows "libcrypto"
-  "Platform-specific dynamic library for libcrypto.")
-
 (defparameter *libssl*
   #+os-windows "libssl-1_1-x64"
-  #-os-windows "libssl"
+  #-os-windows "libssl.so.1.1"
   "Platform-specific dynamic library for libssl.")
 
 ;;; ----------------------------------------------------
 
 (eval-when (:load-toplevel :execute)
-  (load-shared-object *libssl*)
-  (load-shared-object *libcrypto*))
+  (load-shared-object *libssl*))
 
 ;;; ----------------------------------------------------
 
