@@ -33,12 +33,20 @@
 (defparameter *libssl*
   #+os-windows "libssl-1_1-x64"
   #-os-windows "libssl.so.1.1"
-  "Platform-specific dynamic library for libssl.")
+  "Platform-specific OpenSSL dynamic library.")
+
+;;; ----------------------------------------------------
+
+(defparameter *libcrypto*
+  #+os-windows "libcrypto-1_1-x64"
+  #-os-windows "libcrypto.so.1.1"
+  "Platform-specific crypto and BIO library for OpenSSL.")
 
 ;;; ----------------------------------------------------
 
 (eval-when (:load-toplevel :execute)
-  (load-shared-object *libssl*))
+  (load-shared-object *libssl*)
+  (load-shared-object *libcrypto*))
 
 ;;; ----------------------------------------------------
 
@@ -133,7 +141,8 @@
       sock
     (when (open-stream-p sock)
       (with-pinned-objects (read-buffer)
-        (let ((n (bio-read bio (vector-sap read-buffer) (length read-buffer))))
+        (let* ((sap (vector-sap read-buffer))
+               (n (bio-read bio sap (length read-buffer))))
           (incf socket-pos n)
           (setf read-pos 0
                 read-size n))))))
