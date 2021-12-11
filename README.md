@@ -45,8 +45,6 @@ If you'd like to test the package, evaluate `tls::test`:
     CL-USER > (tls::test)
 
 
-## That's all, folks!
-
 [openssl]: https://www.openssl.org/
 [sbcl]: http://sbcl.org/
 [brew]: https://brew.sh/
