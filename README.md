@@ -23,7 +23,20 @@ When you're done with the stream, remember to `close` it.
     CL-USER > (close *)
     NIL
 
-## Note
+## MacOS X and OpenSSL
+
+On MacOS X, the default libcrypto is a stub library programmed to fail with the error: `loading libcrypto in an unsafe way`.
+
+In order to fix this, I recommend using [Homebrew][brew] to install [LibreSSL][libressl].
+
+Once installed, you'll need to update your `PATH` to use that version and add symbolic links to the dynamic libraries into `/usr/local/lib`:
+
+    export PATH=$(brew --prefix)/opt/libressl/bin:$PATH
+
+    ln -s $(brew--prefix)/opt/libressl/lib/libssl.dylib /usr/local/lib
+    ln -s $(brew--prefix)/opt/libressl/lib/libcrypto.dylib /usr/local/lib
+
+## Notes
 
 Under-the-hood the streams are octet (byte) streams. Because this package's primary use is for HTTPS, when using functions like `read-char` and `read-line`, the bytes read are assumed to be ASCII characters (1 byte = 1 character). If you need to decode the bytes, then use `read-byte` or `read-sequence` and then `sb-ext:octets-to-string`.
 
@@ -36,3 +49,5 @@ If you'd like to test the package, evaluate `tls::test`:
 
 [openssl]: https://www.openssl.org/
 [sbcl]: http://sbcl.org/
+[brew]: https://brew.sh/
+[libressl]: https://www.libressl.org/

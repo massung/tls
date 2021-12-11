@@ -32,14 +32,16 @@
 
 (defparameter *libssl*
   #+os-windows "libssl-1_1-x64"
-  #-os-windows "libssl.so.1.1"
+  #+os-macosx "libssl.dylib"
+  #+os-linux "libssl.1.1.so"
   "Platform-specific OpenSSL dynamic library.")
 
 ;;; ----------------------------------------------------
 
 (defparameter *libcrypto*
   #+os-windows "libcrypto-1_1-x64"
-  #-os-windows "libcrypto.so.1.1"
+  #+os-macosx "libcrypto.dylib"
+  #+os-linux "libcrypto.so"
   "Platform-specific crypto and BIO library for OpenSSL.")
 
 ;;; ----------------------------------------------------
